@@ -23,4 +23,6 @@ public interface Entity {
     long getBudget();
 
     void modify(Pricer pricer, Instancer instancer);
+
+//    void modify();
 }

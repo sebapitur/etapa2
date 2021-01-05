@@ -15,15 +15,15 @@ public class Instancer {
     }
 
     public void addNewEntities (final int currentMonthIndex) {
-        List<CostChange> costChanges = input.getCostChanges().get(currentMonthIndex);
+//        List<CostChange> costChanges = input.getCostChanges().get(currentMonthIndex);
         List<Entity> newConsumers = input.getNewConsumers().get(currentMonthIndex);
         newConsumers.forEach(input::addConsumer);
-        for (CostChange costChange : costChanges) {
-            Distributor distributor = getDistributor(costChange.getId());
-            assert distributor != null;
-            distributor.setInfrastructureCost(costChange.getInfrastructureCost());
-            distributor.setProductionCost(costChange.getProductionCost());
-        }
+//        for (CostChange costChange : costChanges) {
+//            Distributor distributor = getDistributor(costChange.getId());
+//            assert distributor != null;
+//            distributor.setInfrastructureCost(costChange.getInfrastructureCost());
+//            distributor.setProductionCost(costChange.getProductionCost());
+//        }
     }
 
     public Consumer getConsumer(final long id) {

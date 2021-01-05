@@ -3,6 +3,7 @@ package entities;
 import entityatt.Contract;
 import entityatt.Instancer;
 import entityatt.Pricer;
+import strategies.EnergyChoiceStrategyType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Distributor implements Entity {
     private long budget;
     private long infrastructureCost;
     private long productionCost;
+    EnergyChoiceStrategyType strategy;
     private long nrConsumers = 0;
     private long priceOfContract;
     private long monthlyExpense;
@@ -122,45 +124,37 @@ public class Distributor implements Entity {
         return productionCost;
     }
 
-    /**
-     *
-     * @param productionCost production cost
-     */
-    public void setProductionCost(final long productionCost) {
-        this.productionCost = productionCost;
-    }
 
-
-
-    public Distributor(final long id, final long contractLength,
-                       final long initialBudget, final long initialInfrastructureCost,
-                       final long initialProductionCost) {
+    public Distributor(long id, long contractLength, long initialBudget ,long initialInfrastructureCost,
+                       long energyNeededKW, EnergyChoiceStrategyType strategy) {
         this.id = id;
         this.contractLength = contractLength;
         this.budget = initialBudget;
         this.infrastructureCost = initialInfrastructureCost;
-        this.productionCost = initialProductionCost;
+        this.strategy = strategy;
+    }
+
+    @Override
+    public String toString() {
+        return "Distributor{" +
+                "id=" + id +
+                ", contractLength=" + contractLength +
+                ", budget=" + budget +
+                ", infrastructureCost=" + infrastructureCost +
+                ", productionCost=" + productionCost +
+                ", strategy=" + strategy +
+                ", nrConsumers=" + nrConsumers +
+                ", priceOfContract=" + priceOfContract +
+                ", monthlyExpense=" + monthlyExpense +
+                ", activeContracts=" + activeContracts +
+                ", inGame=" + inGame +
+                '}';
     }
 
     /**
      *
      * @return string with distributor's fields
      */
-    @Override
-    public String toString() {
-        return "Distributor{"
-                + "id=" + id
-                + ", contractLength=" + contractLength
-                + ", budget=" + budget
-                + ", infrastructureCost=" + infrastructureCost
-                + ", productionCost=" + productionCost
-                + ", nrConsumers=" + nrConsumers
-                + ", priceOfContract=" + priceOfContract
-                + ", monthlyExpense=" + monthlyExpense
-                + ", activeContracts=" + activeContracts
-                + ", inGame=" + inGame
-                + '}';
-    }
 
     /**
      *
