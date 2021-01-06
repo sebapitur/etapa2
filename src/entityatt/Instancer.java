@@ -16,7 +16,7 @@ public class Instancer {
 
     public void addNewEntities (final int currentMonthIndex) {
 //        List<CostChange> costChanges = input.getCostChanges().get(currentMonthIndex);
-        List<Entity> newConsumers = input.getNewConsumers().get(currentMonthIndex);
+        List<Consumer> newConsumers = input.getNewConsumers().get(currentMonthIndex);
         newConsumers.forEach(input::addConsumer);
 //        for (CostChange costChange : costChanges) {
 //            Distributor distributor = getDistributor(costChange.getId());
@@ -27,9 +27,8 @@ public class Instancer {
     }
 
     public Consumer getConsumer(final long id) {
-        List<Entity> consumers = input.getConsumers();
-        for (Entity entity : consumers) {
-            Consumer consumer = (Consumer) entity;
+        List<Consumer> consumers = input.getConsumers();
+        for (Consumer consumer : consumers) {
             if (consumer.getId() == id) {
                 return consumer;
             }
@@ -37,9 +36,8 @@ public class Instancer {
         return null;
     }
     public Distributor getDistributor(final long id) {
-        List<Entity> distributors = input.getDistributors();
-        for (Entity entity : distributors) {
-            Distributor distributor = (Distributor) entity;
+        List<Distributor> distributors = input.getDistributors();
+        for (Distributor distributor : distributors) {
             if (distributor.getId() == id) {
                 return distributor;
             }

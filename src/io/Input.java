@@ -1,8 +1,11 @@
 package io;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import entities.Consumer;
+import entities.Distributor;
 import entities.Entity;
-import entityatt.Change;
+import entityatt.DistributorChange;
+import entityatt.ProducerChange;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -13,12 +16,12 @@ import java.util.Map;
 public final class Input {
 
     private long numberOfTurns;
-    private List<Entity> consumers = new LinkedList<>();
-    private List<Entity> distributors = new LinkedList<>();
+    private List<Consumer> consumers = new LinkedList<>();
+    private List<Distributor> distributors = new LinkedList<>();
     private List<Entity> producers = new LinkedList<>();
-    private List<List<Entity>> newConsumers = new LinkedList<>();
-    private List<List<Change>> distributorChanges =  new LinkedList<>();
-    private List<List<Change>> producerChanges = new LinkedList<>();
+    private List<List<Consumer>> newConsumers = new LinkedList<>();
+    private List<List<DistributorChange>> distributorChanges =  new LinkedList<>();
+    private List<List<ProducerChange>> producerChanges = new LinkedList<>();
 
 
 
@@ -30,11 +33,11 @@ public final class Input {
         List<?> consumersAtt = (List<?>) initialData.get(Constants.getString(Constants.CONSUMERS));
         EntityFactory fact =  EntityFactory.getInstance();
         for (Object consumer: consumersAtt) {
-            consumers.add(fact.createEntity(Constants.CONSUMER, (Map<?, ?>) consumer));
+            consumers.add((Consumer) fact.createEntity(Constants.CONSUMER, (Map<?, ?>) consumer));
         }
         List<?> distributorsAtt = (List<?>) initialData.get(Constants.getString(Constants.DISTRIBUTORS));
         for (Object distributor: distributorsAtt) {
-            distributors.add(fact.createEntity(Constants.DISTRIBUTOR, (Map<?, ?>) distributor));
+            distributors.add((Distributor) fact.createEntity(Constants.DISTRIBUTOR, (Map<?, ?>) distributor));
         }
         List<?> producersAtt = (List<?>) initialData.get(Constants.getString(Constants.PRODUCERS));
         for (Object producer: producersAtt) {
@@ -46,19 +49,19 @@ public final class Input {
             List<?> newConsumersAtt = (List<?>) updateMap.get(Constants.getString(Constants.NEW_CONSUMERS));
             List<?> distributorsChangeAtt = (List<?>) updateMap.get(Constants.getString(Constants.DISTRIBUTORS_CHANGES));
             List<?> producersChangeAtt = (List<?>) updateMap.get(Constants.getString(Constants.PRODUCER_CHANGES));
-            List<Entity> newConsumersTemp = new LinkedList<>();
+            List<Consumer> newConsumersTemp = new LinkedList<>();
             for (Object consumerAtt: newConsumersAtt) {
-                newConsumersTemp.add(fact.createEntity(Constants.CONSUMER, (Map<?,?>)consumerAtt));
+                newConsumersTemp.add((Consumer) fact.createEntity(Constants.CONSUMER, (Map<?,?>)consumerAtt));
             }
             newConsumers.add(newConsumersTemp);
-            List<Change> distributorChangesTemp =  new LinkedList<>();
+            List<DistributorChange> distributorChangesTemp =  new LinkedList<>();
             for(Object distributorChangeAtt: distributorsChangeAtt) {
-                distributorChangesTemp.add(fact.createChange(Constants.DISTRIBUTOR, (Map<?, ?>) distributorChangeAtt));
+                distributorChangesTemp.add((DistributorChange) fact.createChange(Constants.DISTRIBUTOR, (Map<?, ?>) distributorChangeAtt));
             }
             distributorChanges.add(distributorChangesTemp);
-            List<Change> producerChangesTemp = new LinkedList<>();
+            List<ProducerChange> producerChangesTemp = new LinkedList<>();
             for(Object producerChangeAtt: producersChangeAtt) {
-                producerChangesTemp.add(fact.createChange(Constants.PRODUCER, (Map<?, ?>) producerChangeAtt));
+                producerChangesTemp.add((ProducerChange) fact.createChange(Constants.PRODUCER, (Map<?, ?>) producerChangeAtt));
             }
             producerChanges.add(producerChangesTemp);
         }
@@ -68,7 +71,7 @@ public final class Input {
      *
      * @param consumer to be added
      */
-    public void addConsumer(final Entity consumer) {
+    public void addConsumer(final Consumer consumer) {
         consumers.add(consumer);
     }
 
@@ -80,40 +83,27 @@ public final class Input {
         this.numberOfTurns = numberOfTurns;
     }
 
-    public List<Entity> getConsumers() {
+    public List<Consumer> getConsumers() {
         return consumers;
     }
 
-    public void setConsumers(final List<Entity> consumers) {
-        this.consumers = consumers;
-    }
-
-    public List<Entity> getDistributors() {
+    public List<Distributor> getDistributors() {
         return distributors;
     }
 
-    public void setDistributors(final List<Entity> distributors) {
-        this.distributors = distributors;
-    }
-
-
-    public List<List<Entity>> getNewConsumers() {
+    public List<List<Consumer>> getNewConsumers() {
         return newConsumers;
-    }
-
-    public void setNewConsumers(final List<List<Entity>> newConsumers) {
-        this.newConsumers = newConsumers;
     }
 
     public List<Entity> getProducers() {
         return producers;
     }
 
-    public List<List<Change>> getDistributorChanges() {
+    public List<List<DistributorChange>> getDistributorChanges() {
         return distributorChanges;
     }
 
-    public List<List<Change>> getProducerChanges() {
+    public List<List<ProducerChange>> getProducerChanges() {
         return producerChanges;
     }
 
