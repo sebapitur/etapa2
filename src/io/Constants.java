@@ -10,7 +10,8 @@ public enum Constants {
     COSTS_CHANGES, ID, INITIAL_INFRASTRUCTURE_COST, PRODUCTION_COST, MONTHLY_INCOME,
     CONTRACT_LENGTH, ENERGY_NEEDED_KW, PRODUCER_STRATEGY, PRODUCERS,
     PRODUCER, ENERGY_TYPE, MAX_DISTRIBUTORS, ENERGY_PER_DISTRIBUITOR, PRICE_KW,
-    SOLAR, HYDRO, COAL, WIND, NUCLEAR;
+    SOLAR, HYDRO, COAL, WIND, NUCLEAR, DISTRIBUTORS_CHANGES, PRODUCER_CHANGES,
+    INFRASTRUCTURE_COST;
 
     static String getString(Constants constant){
         return switch (constant) {
@@ -33,6 +34,11 @@ public enum Constants {
             case MAX_DISTRIBUTORS -> "maxDistributors";
             case ENERGY_PER_DISTRIBUITOR ->"energyPerDistributor";
             case PRICE_KW -> "priceKW";
+            case MONTHLY_UPDATES -> "monthlyUpdates";
+            case NEW_CONSUMERS -> "newConsumers";
+            case DISTRIBUTORS_CHANGES ->  "distributorChanges";
+            case PRODUCER_CHANGES -> "producerChanges";
+            case INFRASTRUCTURE_COST -> "infrastructureCost";
             default -> null;
         };
     }

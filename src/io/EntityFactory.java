@@ -4,6 +4,9 @@ import entities.Consumer;
 import entities.Distributor;
 import entities.Entity;
 import entities.Producer;
+import entityatt.Change;
+import entityatt.DistributorChange;
+import entityatt.ProducerChange;
 import strategies.EnergyChoiceStrategyType;
 
 import java.util.Map;
@@ -45,7 +48,6 @@ public final class EntityFactory {
             case PRODUCER -> {
                 long id = (Integer) entry.get(Constants.getString(Constants.ID));
                 String stringType = (String) entry.get(Constants.getString(Constants.ENERGY_TYPE));
-                System.out.println(stringType);
                 Constants energyType = Constants.getEnergyType(stringType);
                 long maxDistributors = (Integer) entry.get(Constants.getString(Constants.MAX_DISTRIBUTORS));
                 double priceKW = (Double) entry.get(Constants.getString(Constants.PRICE_KW));
@@ -54,5 +56,21 @@ public final class EntityFactory {
             }
         }
         return null;
+    }
+    public Change createChange(Constants con, Map<?,?> map) {
+        long id = (Integer)map.get(Constants.getString(Constants.ID));
+        switch (con) {
+            case DISTRIBUTOR -> {
+                long infrastructureCost = (Integer) map.get(Constants.getString(Constants.INFRASTRUCTURE_COST));
+                return new DistributorChange(id, infrastructureCost);
+            }
+            case PRODUCER -> {
+                long energyPerDistributor = (Integer) map.get(Constants.getString(Constants.ENERGY_PER_DISTRIBUITOR));
+                return new ProducerChange(id, energyPerDistributor);
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 }

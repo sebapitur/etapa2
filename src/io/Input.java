@@ -5,6 +5,7 @@ import entities.Consumer;
 import entities.Distributor;
 import entities.Entity;
 import entities.Producer;
+import entityatt.Change;
 import org.w3c.dom.ls.LSInput;
 
 import java.io.IOException;
@@ -20,7 +21,8 @@ public final class Input {
     private List<Entity> distributors = new LinkedList<>();
     private List<Entity> producers = new LinkedList<>();
     private List<List<Entity>> newConsumers = new LinkedList<>();
-
+    private List<List<Change>> distributorChanges =  new LinkedList<>();
+    private List<List<Change>> producerChanges = new LinkedList<>();
     public Input(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<?, ?> map = objectMapper.readValue(Paths.get(filePath).toFile(), Map.class);
@@ -35,12 +37,31 @@ public final class Input {
         for (Object distributor: distributorsAtt) {
             distributors.add(fact.createEntity(Constants.DISTRIBUTOR, (Map<?, ?>) distributor));
         }
-        for (Entity entity: distributors){
-            System.out.println((Distributor) entity);
-        }
         List<?> producersAtt = (List<?>) initialData.get(Constants.getString(Constants.PRODUCERS));
         for (Object producer: producersAtt) {
             producers.add(fact.createEntity(Constants.PRODUCER, (Map<?, ?>) producer));
+        }
+        List<?> monthlyUpdates = (List<?>) map.get(Constants.getString(Constants.MONTHLY_UPDATES));
+        for (Object update: monthlyUpdates){
+            Map<?,?> updateMap =  (Map<?, ?>)update;
+            List<?> newConsumersAtt = (List<?>) updateMap.get(Constants.getString(Constants.NEW_CONSUMERS));
+            List<?> distributorsChangeAtt = (List<?>) updateMap.get(Constants.getString(Constants.DISTRIBUTORS_CHANGES));
+            List<?> producersChangeAtt = (List<?>) updateMap.get(Constants.getString(Constants.PRODUCER_CHANGES));
+            List<Entity> newConsumersTemp = new LinkedList<>();
+            for (Object consumerAtt: newConsumersAtt) {
+                newConsumersTemp.add(fact.createEntity(Constants.CONSUMER, (Map<?,?>)consumerAtt));
+            }
+            newConsumers.add(newConsumersTemp);
+            List<Change> distributorChangesTemp =  new LinkedList<>();
+            for(Object distributorChangeAtt: distributorsChangeAtt) {
+                distributorChangesTemp.add(fact.createChange(Constants.DISTRIBUTOR, (Map<?, ?>) distributorChangeAtt));
+            }
+            distributorChanges.add(distributorChangesTemp);
+            List<Change> producerChangesTemp = new LinkedList<>();
+            for(Object producerChangeAtt: producersChangeAtt) {
+                producerChangesTemp.add(fact.createChange(Constants.PRODUCER, (Map<?, ?>) producerChangeAtt));
+            }
+            producerChanges.add(producerChangesTemp);
         }
     }
 
