@@ -1,12 +1,8 @@
 package io;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entities.Consumer;
-import entities.Distributor;
 import entities.Entity;
-import entities.Producer;
 import entityatt.Change;
-import org.w3c.dom.ls.LSInput;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -23,6 +19,9 @@ public final class Input {
     private List<List<Entity>> newConsumers = new LinkedList<>();
     private List<List<Change>> distributorChanges =  new LinkedList<>();
     private List<List<Change>> producerChanges = new LinkedList<>();
+
+
+
     public Input(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<?, ?> map = objectMapper.readValue(Paths.get(filePath).toFile(), Map.class);
@@ -106,5 +105,16 @@ public final class Input {
         this.newConsumers = newConsumers;
     }
 
+    public List<Entity> getProducers() {
+        return producers;
+    }
+
+    public List<List<Change>> getDistributorChanges() {
+        return distributorChanges;
+    }
+
+    public List<List<Change>> getProducerChanges() {
+        return producerChanges;
+    }
 
 }
