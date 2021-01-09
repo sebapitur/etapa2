@@ -10,10 +10,16 @@ public enum Constants {
     COSTS_CHANGES, ID, INITIAL_INFRASTRUCTURE_COST, PRODUCTION_COST, MONTHLY_INCOME,
     CONTRACT_LENGTH, ENERGY_NEEDED_KW, PRODUCER_STRATEGY, PRODUCERS,
     PRODUCER, ENERGY_TYPE, MAX_DISTRIBUTORS, ENERGY_PER_DISTRIBUITOR, PRICE_KW,
-    SOLAR, HYDRO, COAL, WIND, NUCLEAR, DISTRIBUTORS_CHANGES, PRODUCER_CHANGES,
-    INFRASTRUCTURE_COST;
+    IS_BANKRUPT, BUDGET, CONTRACT_COST, CONTRACTS, CONSUMER_ID, PRICE,
+    REMAINED_CONTRACT_MONTHS, MONTHLY_STATS, MONTH, DISTRIBUTORS_IDS,
+    ENERGY_PRODUCERS,
+    SOLAR, HYDRO, COAL, WIND, NUCLEAR
 
-    static String getString(Constants constant){
+
+
+    , DISTRIBUTORS_CHANGES, PRODUCER_CHANGES, INFRASTRUCTURE_COST;
+
+    public static String getString(Constants constant){
         return switch (constant) {
             case ID -> "id";
             case NUMBER_OF_TURNS -> "numberOfTurns";
@@ -39,6 +45,22 @@ public enum Constants {
             case DISTRIBUTORS_CHANGES ->  "distributorChanges";
             case PRODUCER_CHANGES -> "producerChanges";
             case INFRASTRUCTURE_COST -> "infrastructureCost";
+            case IS_BANKRUPT -> "isBankrupt";
+            case BUDGET -> "budget";
+            case CONTRACT_COST -> "contractCost";
+            case CONTRACTS -> "contracts";
+            case CONSUMER_ID -> "consumerId";
+            case PRICE -> "price";
+            case REMAINED_CONTRACT_MONTHS -> "remainedContractMonths";
+            case MONTHLY_STATS -> "monthlyStats";
+            case MONTH -> "month";
+            case DISTRIBUTORS_IDS -> "distributorsIds";
+            case SOLAR -> "SOLAR";
+            case HYDRO -> "HYDRO";
+            case COAL -> "COAL";
+            case WIND -> "WIND";
+            case NUCLEAR -> "NUCLEAR";
+            case ENERGY_PRODUCERS -> "energyProducers";
             default -> null;
         };
     }
@@ -53,4 +75,7 @@ public enum Constants {
         };
     }
 
+    public boolean isRenewable() {
+        return this == WIND || this == HYDRO || this == SOLAR;
+    }
 }

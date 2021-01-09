@@ -3,6 +3,7 @@ package entityatt;
 import entities.Consumer;
 import entities.Distributor;
 import entities.Entity;
+import entities.Producer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +12,10 @@ import java.util.stream.Collectors;
 public class Pricer {
     public static final double PROFITPERCENT = 0.2;
     public static final double RESTANT = 1.2;
+    Instancer instancer;
+    public Pricer(Instancer instancer) {
+        this.instancer = instancer;
+    }
 
 
     public void normalPricing(Consumer consumer, Distributor distributor, long oldBudget) {
@@ -46,7 +51,7 @@ public class Pricer {
             distributor.setBudget(distributor.getBudget()
                     - Math.round(Math.floor(consumer.getActiveContract().getPrice()
                     + RESTANT * consumer.getActiveContract().getOldprice())));
-            distributor.getActiveContracts().remove(consumer.getActiveContract());
+            distributor.getActiveConsumerContracts().remove(consumer.getActiveContract());
             distributor.setNrConsumers(distributor.getNrConsumers() - 1);
         } else {
             distributor.setBudget(distributor.getBudget()
@@ -57,19 +62,18 @@ public class Pricer {
         }
     }
 
-    public void setMonthlyExpenses(final List<Entity> distributors) {
-        for (Entity entity : distributors) {
-            Distributor distributor = (Distributor) entity;
+    public void setMonthlyExpenses(final List<Distributor> distributors) {
+        for (Distributor distributor : distributors) {
             distributor.setMonthlyExpense(distributor.getInfrastructureCost()
                     + distributor.getProductionCost() * distributor.getNrConsumers());
         }
     }
 
-    public void setPrices(List<Entity> distributors) {
+    public void setPrices(List<Distributor> distributors) {
+//        setProductionCost(distributors);
         distributors = distributors.stream().filter(Entity::isInGame).
                 collect(Collectors.toCollection(LinkedList::new));
-        for (Entity entity : distributors) {
-            Distributor distributor = (Distributor) entity;
+        for (Distributor distributor : distributors) {
             if (distributor.getNrConsumers() == 0) {
                 distributor.setPriceOfContract(Math.round(distributor.getInfrastructureCost()
                         + distributor.getProductionCost()
@@ -83,6 +87,25 @@ public class Pricer {
                                 * distributor.getProductionCost()))));
             }
         }
+    }
+
+    public void setProductionCost(List<Distributor> distributors) {
+        /* cost = sum (cantitate energie de la producator * pret pe Kw de la producator)
+           productionCost = Math.round(Math.floor(cost / 10));*/
+        long productionCost = 0;
+        for(Distributor distributor: distributors) {
+            List<ContractDistributorProducer> contractList;
+            contractList = distributor.getActiveProducersContracts();
+            double sum = 0;
+            for(ContractDistributorProducer c: contractList) {
+                long pId = c.getProducerId();
+                Producer producer = instancer.getProducer(pId);
+                sum += producer.getEnergyPerDistributor() * producer.getPriceKW();
+            }
+            productionCost = Math.round(Math.floor(sum / 10));
+            distributor.setProductionCost(productionCost);
+        }
+
     }
 
 }

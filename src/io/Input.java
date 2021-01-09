@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Consumer;
 import entities.Distributor;
 import entities.Entity;
+import entities.Producer;
 import entityatt.DistributorChange;
 import entityatt.ProducerChange;
 
@@ -12,13 +13,14 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 
 public final class Input {
-
+    private long currMonth;
     private long numberOfTurns;
     private List<Consumer> consumers = new LinkedList<>();
     private List<Distributor> distributors = new LinkedList<>();
-    private List<Entity> producers = new LinkedList<>();
+    private List<Producer> producers = new LinkedList<>();
     private List<List<Consumer>> newConsumers = new LinkedList<>();
     private List<List<DistributorChange>> distributorChanges =  new LinkedList<>();
     private List<List<ProducerChange>> producerChanges = new LinkedList<>();
@@ -41,8 +43,15 @@ public final class Input {
         }
         List<?> producersAtt = (List<?>) initialData.get(Constants.getString(Constants.PRODUCERS));
         for (Object producer: producersAtt) {
-            producers.add(fact.createEntity(Constants.PRODUCER, (Map<?, ?>) producer));
+            producers.add((Producer) fact.createEntity(Constants.PRODUCER, (Map<?, ?>) producer));
         }
+
+        for (Producer p: producers) {
+            for(Observer o: distributors) {
+                p.addObserver(o);
+            }
+        }
+
         List<?> monthlyUpdates = (List<?>) map.get(Constants.getString(Constants.MONTHLY_UPDATES));
         for (Object update: monthlyUpdates){
             Map<?,?> updateMap =  (Map<?, ?>)update;
@@ -95,7 +104,7 @@ public final class Input {
         return newConsumers;
     }
 
-    public List<Entity> getProducers() {
+    public List<Producer> getProducers() {
         return producers;
     }
 

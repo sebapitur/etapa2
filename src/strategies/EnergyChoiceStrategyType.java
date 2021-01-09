@@ -19,6 +19,23 @@ public enum EnergyChoiceStrategyType {
         }
     }
 
+    public static String getString(EnergyChoiceStrategyType t) {
+        switch (t) {
+            case GREEN -> {
+                return "GREEN";
+            }
+            case PRICE -> {
+                return "PRICE";
+            }
+            case QUANTITY -> {
+                return "QUANTITY";
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
+
     EnergyChoiceStrategyType(String label) {
         this.label = label;
     }

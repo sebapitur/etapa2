@@ -1,7 +1,17 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
+import entities.Consumer;
+import entities.Distributor;
+import entities.Producer;
+import entityatt.ContractConsumerDistributor;
+import entityatt.ContractDistributorProducer;
+import io.Constants;
 import io.Input;
-
-import java.io.File;
+import io.Writer;
+import simulator.Simulation;
+import strategies.EnergyChoiceStrategyType;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Entry point to the simulation
@@ -17,7 +27,24 @@ public final class Main {
      * @throws Exception might error when reading/writing/opening files, parsing JSON
      */
     public static void main(final String[] args) throws Exception {
-        ObjectMapper map = new ObjectMapper();
         Input input = new Input(args[0]);
+        Simulation sim = new Simulation(input);
+        Writer writer = new Writer(args[1]);
+        List<List<Map<String, Object>>> producersHistory = sim.simulate(input, writer);
+        List<Map<String, Object>> consumers = new LinkedList<>();
+        List<Map<String, Object>> distributors = new LinkedList<>();
+        List<Map<String, Object>> producers = new LinkedList<>();
+        writer.finalLists(input, producersHistory, consumers, distributors, producers);
+
+        if(args[0].equals("/home/sebastian/etapa2/checker/resources/in/complex_2.json")) {
+            new Writer("cacas.out").closeJSON(consumers, distributors, producers);
+        }
+        writer.closeJSON(consumers, distributors, producers);
     }
+
+
+
+
+
+
 }

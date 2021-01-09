@@ -1,64 +1,27 @@
 package entityatt;
 
-public final class Contract {
-    private long consumerId;
-    private final long distributorId;
-    private long monthsRemained;
-    private long price;
-    private long oldprice = 0;
-    private boolean restant;
+public class Contract {
 
-    public Contract(final long consumerId,
-                    final long distributorId,
-                    final long monthsRemained,
-                    final long price) {
-        this.consumerId = consumerId;
-        this.distributorId = distributorId;
-        this.monthsRemained = monthsRemained;
-        this.price = price;
+    protected long receiverId, providerId;
+
+    public long getReceiverId() {
+        return receiverId;
     }
 
-    public boolean isRestant() {
-        return restant;
+    public long getProviderId() {
+        return providerId;
     }
 
-    public void setRestant(boolean restant) {
-        this.restant = restant;
+    public void setReceiverId(long receiverId) {
+        this.receiverId = receiverId;
     }
 
-    public long getConsumerId() {
-        return consumerId;
+    public void setProviderId(long providerId) {
+        this.providerId = providerId;
     }
 
-    public void setConsumerId(long consumerId) {
-        this.consumerId = consumerId;
-    }
-
-    public long getPrice() {
-        return price;
-    }
-
-    public void setPrice(long price) {
-        this.price = price;
-    }
-
-    public long getDistributorId() {
-        return distributorId;
-    }
-
-    public long getMonthsRemained() {
-        return monthsRemained;
-    }
-
-    public void setMonthsRemained(long monthsRemained) {
-        this.monthsRemained = monthsRemained;
-    }
-
-    public void setOldPrice(long price) {
-        oldprice = price;
-    }
-
-    public long getOldprice() {
-        return oldprice;
-    }
+//    public Contract(long receiverId, long providerId) {
+//        this.receiverId = receiverId;
+//        this.providerId = providerId;
+//    }
 }

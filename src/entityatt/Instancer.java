@@ -3,6 +3,7 @@ package entityatt;
 import entities.Consumer;
 import entities.Distributor;
 import entities.Entity;
+import entities.Producer;
 import io.Input;
 
 import java.util.List;
@@ -14,16 +15,22 @@ public class Instancer {
         this.input = input;
     }
 
+    public Input getInput() {
+        return input;
+    }
+
     public void addNewEntities (final int currentMonthIndex) {
-//        List<CostChange> costChanges = input.getCostChanges().get(currentMonthIndex);
+
         List<Consumer> newConsumers = input.getNewConsumers().get(currentMonthIndex);
         newConsumers.forEach(input::addConsumer);
-//        for (CostChange costChange : costChanges) {
-//            Distributor distributor = getDistributor(costChange.getId());
-//            assert distributor != null;
-//            distributor.setInfrastructureCost(costChange.getInfrastructureCost());
-//            distributor.setProductionCost(costChange.getProductionCost());
-//        }
+        List<DistributorChange> distributorChanges = input.getDistributorChanges().get(currentMonthIndex);
+        for (DistributorChange distributorChange: distributorChanges) {
+            long id = distributorChange.getId();
+            long newInfrastructureCost = distributorChange.getInfrastructureCost();
+            Distributor d = getDistributor(id);
+            d.setInfrastructureCost(newInfrastructureCost);
+        }
+
     }
 
     public Consumer getConsumer(final long id) {
@@ -40,6 +47,16 @@ public class Instancer {
         for (Distributor distributor : distributors) {
             if (distributor.getId() == id) {
                 return distributor;
+            }
+        }
+        return null;
+    }
+
+    public Producer getProducer(final long id) {
+        List<Producer> producers = input.getProducers();
+        for (Producer producer: producers) {
+            if (producer.getId() == id) {
+                return producer;
             }
         }
         return null;

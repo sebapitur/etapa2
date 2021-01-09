@@ -10,10 +10,9 @@ import java.util.Map;
 
 public class Mapper {
 
-    public Map<Distributor, Long> getMap(final List<Entity> distributors) {
+    public Map<Distributor, Long> getMap(final List<Distributor> distributors) {
         Map<Distributor, Long> distributorMonthlyPrice = new LinkedHashMap<>();
-        for (Entity entity : distributors) {
-            Distributor distributor = (Distributor) entity;
+        for (Distributor distributor : distributors) {
             Long monthlyPrice = distributor.getPriceOfContract();
             distributorMonthlyPrice.put(distributor, monthlyPrice);
         }

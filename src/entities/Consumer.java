@@ -1,6 +1,6 @@
 package entities;
 
-import entityatt.Contract;
+import entityatt.ContractConsumerDistributor;
 import entityatt.Instancer;
 import entityatt.Pricer;
 
@@ -8,7 +8,7 @@ public class Consumer implements Entity {
     private final long id;
     private long budget;
     private final long monthlyIncome;
-    private Contract activeContract = null;
+    private ContractConsumerDistributor activeContractConsumerDistributor = null;
     private boolean inGame = true;
 
     /**
@@ -61,16 +61,16 @@ public class Consumer implements Entity {
      *
      * @return consumer's active contract
      */
-    public Contract getActiveContract() {
-        return activeContract;
+    public ContractConsumerDistributor getActiveContract() {
+        return activeContractConsumerDistributor;
     }
 
     /**
      *
-     * @param activeContract set consumer's active contract
+     * @param activeContractConsumerDistributor set consumer's active contract
      */
-    public void setActiveContract(final Contract activeContract) {
-        this.activeContract = activeContract;
+    public void setActiveContract(final ContractConsumerDistributor activeContractConsumerDistributor) {
+        this.activeContractConsumerDistributor = activeContractConsumerDistributor;
     }
 
     /**
@@ -83,7 +83,7 @@ public class Consumer implements Entity {
                 + "id=" + id
                 + ", budget=" + budget
                 + ", monthlyIncome=" + monthlyIncome
-                + ", activeContract=" + activeContract
+                + ", activeContract=" + activeContractConsumerDistributor
                 + ", inGame=" + inGame
                 + '}';
     }
