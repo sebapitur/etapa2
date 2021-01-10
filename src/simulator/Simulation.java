@@ -1,5 +1,7 @@
 package simulator;
 
+import contract.ContractorConsumer;
+import contract.ContractorProducer;
 import entities.Producer;
 import contract.Contractor;
 import entityatt.EntityModifier;
@@ -16,7 +18,8 @@ import java.util.Map;
 public class Simulation {
     Input input;
     Instancer instancer;
-    Contractor contractor;
+    ContractorConsumer contractorConsumer;
+    ContractorProducer contractorProducer;
     Pricer pricer;
     EntityModifier mod;
 
@@ -25,16 +28,17 @@ public class Simulation {
         this.input = input;
         instancer = new Instancer(input);
         pricer = new Pricer(instancer);
-        contractor = new Contractor(instancer);
+        contractorConsumer = new ContractorConsumer(instancer);
+        contractorProducer = new ContractorProducer(instancer);
         mod = new EntityModifier(pricer, instancer);
     }
 
 
     public void initialRun() {
-        contractor.setContractsProducers(input.getProducers(), input.getDistributors());
+        contractorProducer.setContracts();
         pricer.setProductionCost(input.getDistributors());
         pricer.setPrices(input.getDistributors());
-        contractor.setContractsConsumers(input.getConsumers(), input.getDistributors());
+        contractorConsumer.setContracts();
         pricer.setMonthlyExpenses(input.getDistributors());
         mod.modifyEntities(input.getDistributors(), input.getConsumers());
     }
@@ -42,17 +46,16 @@ public class Simulation {
 
     public void normalRun(final int currentMonthIndex) {
 
-        contractor.nullifyContracts(input.getDistributors());
+        contractorConsumer.nullifyContracts();
         instancer.addNewEntities(currentMonthIndex);
         pricer.setPrices(input.getDistributors());
-        contractor.setNrConsumers(input.getDistributors());
-        contractor.setContractsConsumers(input.getConsumers(), input.getDistributors());
+        contractorConsumer.setNrConsumers();
+        contractorConsumer.setContracts();
         pricer.setMonthlyExpenses(input.getDistributors());
         mod.setMonthIndex(currentMonthIndex);
         mod.modifyEntities(input.getDistributors(), input.getConsumers());
-        contractor.setContractsProducers(input.getProducers(), input.getDistributors());
+        contractorProducer.setContracts();
         pricer.setProductionCost(input.getDistributors());
-//        mod.modifyProducers();
 
     }
 

@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jackson" level="project" />
-    <orderEntry type="library" name="org.json.simple-0.3-incubating" level="project" />
+    <orderEntry type="library" exported="" name="jackson" level="project" />
+    <orderEntry type="library" exported="" name="org.json.simple-0.3-incubating" level="project" />
   </component>
 </module>
