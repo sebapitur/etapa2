@@ -13,4 +13,12 @@ public class ContractDistributorProducer extends Contract{
         this.receiverId = distributorId;
         this.providerId = producerId;
     }
+
+    @Override
+    public String toString() {
+        return "ContractDistributorProducer{" +
+                "receiverId=" + receiverId +
+                ", providerId=" + providerId +
+                '}';
+    }
 }

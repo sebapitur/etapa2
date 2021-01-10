@@ -23,6 +23,7 @@ public final class Main {
         Input input = new Input(args[0]);
         Simulation sim = new Simulation(input);
         Writer writer = new Writer(args[1]);
+
         List<List<Map<String, Object>>> producersHistory = sim.simulate(input, writer);
         List<Map<String, Object>> consumers = new LinkedList<>();
         List<Map<String, Object>> distributors = new LinkedList<>();

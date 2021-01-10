@@ -10,6 +10,7 @@ import entityatt.Pricer;
 import io.Input;
 import io.Writer;
 
+import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,6 +68,7 @@ public class Simulation {
         this.initialRun();
         for(int i = 0; i < input.getNumberOfTurns(); i++) {
             this.normalRun(i);
+
             input.getProducers().sort(Comparator.comparingLong(Producer::getId));
             writer.writeProducerHistory(input, list, i+1);
 

@@ -27,6 +27,7 @@ public class EntityModifier {
     public void modifyEntities(List<Distributor> distributors, List<Consumer> consumers) {
         distributors = distributors.stream().filter(Entity::isInGame).
                 collect(Collectors.toCollection(LinkedList::new));
+
         this.modifyConsumers(consumers);
         this.modifyDistributors(distributors);
         modifyProducers();

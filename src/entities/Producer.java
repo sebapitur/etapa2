@@ -23,6 +23,10 @@ public class Producer extends Observable implements Entity {
         this.priceKW = priceKW;
     }
 
+    public List<Observer> getObservers() {
+        return observers;
+    }
+
     public boolean acceptsClients() {
         return contractList.size() < maxDistributors;
     }
@@ -70,7 +74,6 @@ public class Producer extends Observable implements Entity {
                 ", energyPerDistributor=" + energyPerDistributor +
                 ", maxDistributors=" + maxDistributors +
                 ", energyType=" + energyType +
-                ", priceKW=" + priceKW +
                 '}';
     }
 
