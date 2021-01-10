@@ -1,5 +1,5 @@
 package entities;
-import entityatt.ContractDistributorProducer;
+import contract.ContractDistributorProducer;
 import entityatt.Instancer;
 import entityatt.Pricer;
 import io.Constants;
@@ -14,6 +14,7 @@ public class Producer extends Observable implements Entity {
     double priceKW;
     List<Observer> observers = new LinkedList<>();
     List<ContractDistributorProducer> contractList = new LinkedList<>();
+    private long tempReceiverId;
     public Producer(long id, long energyPerDistributor, long maxDistributors, Constants energyType, double priceKW) {
         this.id = id;
         this.energyPerDistributor = energyPerDistributor;
@@ -50,12 +51,11 @@ public class Producer extends Observable implements Entity {
         return energyPerDistributor;
     }
 
-    public void addContract(ContractDistributorProducer c) {
+    public void addContract(ContractDistributorProducer c, Instancer instancer) {
         contractList.add(c);
-    }
+        tempReceiverId = c.getReceiverId();
+        modify(null, instancer);
 
-    public void resetContractList(){
-        contractList = new LinkedList<>();
     }
 
     public void setEnergyPerDistributor(long energyPerDistributor) {
@@ -91,7 +91,8 @@ public class Producer extends Observable implements Entity {
 
     @Override
     public void modify(Pricer pricer, Instancer instancer) {
-        System.out.println("Cannot modify me like this!");
+        Distributor d = instancer.getDistributor(tempReceiverId);
+        addObserver(d);
     }
     @Override
     public synchronized void addObserver(Observer o) {
@@ -100,7 +101,6 @@ public class Producer extends Observable implements Entity {
 
     @Override
     public void notifyObservers() {
-        resetContractList();
         for(Observer obs:  observers) {
             obs.update(this, true);
         }

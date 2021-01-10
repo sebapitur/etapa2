@@ -1,11 +1,11 @@
-package entityatt;
+package contract;
 
 public class ContractDistributorProducer extends Contract{
 
-    long getDistributorId() {
+    public long getDistributorId() {
         return getReceiverId();
     }
-    long getProducerId() {
+    public long getProducerId() {
         return getProviderId();
     }
 

@@ -1,9 +1,11 @@
-package entityatt;
+package contract;
 
 import entities.Consumer;
 import entities.Distributor;
 import entities.Entity;
 import entities.Producer;
+import entityatt.Instancer;
+import entityatt.Mapper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -83,7 +85,7 @@ public class Contractor {
                             producer.getId());
                     distributor.getActiveProducersContracts().add(contract);
                     distributor.updateEnergyReceived(producer.getEnergyPerDistributor());
-                    producer.addContract(contract);
+                    producer.addContract(contract, instancer);
                     distributor.setSearchProducer(false);
                     i++;
                 }

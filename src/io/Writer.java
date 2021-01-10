@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Consumer;
 import entities.Distributor;
 import entities.Producer;
-import entityatt.ContractConsumerDistributor;
-import entityatt.ContractDistributorProducer;
+import contract.ContractConsumerDistributor;
+import contract.ContractDistributorProducer;
 import strategies.EnergyChoiceStrategyType;
 
 import java.io.FileWriter;
@@ -37,6 +37,7 @@ public final class Writer {
                 ids.add(c.getReceiverId());
             }
             ids = ids.stream().distinct().collect(Collectors.toList());
+            ids.sort(Comparator.comparingLong(o -> o));
             list.get(i).add(this.writeFileProducerContract(month,ids));
             i++;
         }

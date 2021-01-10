@@ -10,7 +10,9 @@ public class PriceStrategy implements Strategy{
         list.sort((o1, o2) -> {
             if(Double.compare(o1.getPriceKW(), o2.getPriceKW()) != 0)
                 return Double.compare(o1.getPriceKW(), o2.getPriceKW());
-            return Long.compare(o2.getEnergyPerDistributor(), o1.getEnergyPerDistributor());
+            if(o2.getEnergyPerDistributor() != o1.getEnergyPerDistributor())
+                return Long.compare(o2.getEnergyPerDistributor(), o1.getEnergyPerDistributor());
+            return Long.compare(o1.getId(), o2.getId());
         });
 
         return list;

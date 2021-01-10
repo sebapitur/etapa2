@@ -1,7 +1,7 @@
 package simulator;
 
 import entities.Producer;
-import entityatt.Contractor;
+import contract.Contractor;
 import entityatt.EntityModifier;
 import entityatt.Instancer;
 import entityatt.Pricer;

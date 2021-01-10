@@ -1,7 +1,7 @@
 package entities;
 
-import entityatt.ContractConsumerDistributor;
-import entityatt.ContractDistributorProducer;
+import contract.ContractConsumerDistributor;
+import contract.ContractDistributorProducer;
 import entityatt.Instancer;
 import entityatt.Pricer;
 import strategies.*;

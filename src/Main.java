@@ -1,14 +1,7 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
-import entities.Consumer;
-import entities.Distributor;
-import entities.Producer;
-import entityatt.ContractConsumerDistributor;
-import entityatt.ContractDistributorProducer;
-import io.Constants;
 import io.Input;
 import io.Writer;
 import simulator.Simulation;
-import strategies.EnergyChoiceStrategyType;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +29,7 @@ public final class Main {
         List<Map<String, Object>> producers = new LinkedList<>();
         writer.finalLists(input, producersHistory, consumers, distributors, producers);
 
-        if(args[0].equals("/home/sebastian/etapa2/checker/resources/in/complex_2.json")) {
+        if(args[0].equals("/home/sebastian/etapa2/checker/resources/in/complex_5.json")) {
             new Writer("cacas.out").closeJSON(consumers, distributors, producers);
         }
         writer.closeJSON(consumers, distributors, producers);

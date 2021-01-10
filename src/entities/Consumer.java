@@ -1,6 +1,6 @@
 package entities;
 
-import entityatt.ContractConsumerDistributor;
+import contract.ContractConsumerDistributor;
 import entityatt.Instancer;
 import entityatt.Pricer;
 

@@ -45,12 +45,12 @@ public final class Input {
         for (Object producer: producersAtt) {
             producers.add((Producer) fact.createEntity(Constants.PRODUCER, (Map<?, ?>) producer));
         }
-
-        for (Producer p: producers) {
-            for(Observer o: distributors) {
-                p.addObserver(o);
-            }
-        }
+//
+//        for (Producer p: producers) {
+//            for(Observer o: distributors) {
+//                p.addObserver(o);
+//            }
+//        }
 
         List<?> monthlyUpdates = (List<?>) map.get(Constants.getString(Constants.MONTHLY_UPDATES));
         for (Object update: monthlyUpdates){

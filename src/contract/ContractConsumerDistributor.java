@@ -1,4 +1,4 @@
-package entityatt;
+package contract;
 
 public final class ContractConsumerDistributor extends Contract {
     private long monthsRemained;
