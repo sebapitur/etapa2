@@ -11,7 +11,8 @@ import java.util.Map;
  */
 public final class Main {
 
-    private Main() { }
+    private Main() {
+    }
 
     /**
      * Main function which reads the input file and starts simulation
@@ -24,21 +25,17 @@ public final class Main {
         Simulation sim = new Simulation(input);
         Writer writer = new Writer(args[1]);
 
-        List<List<Map<String, Object>>> producersHistory = sim.simulate(input, writer);
+        List<List<Map<String, Object>>> producersHistory = sim.simulate(writer);
         List<Map<String, Object>> consumers = new LinkedList<>();
         List<Map<String, Object>> distributors = new LinkedList<>();
         List<Map<String, Object>> producers = new LinkedList<>();
         writer.finalLists(input, producersHistory, consumers, distributors, producers);
 
-        if(args[0].equals("/home/sebastian/etapa2/checker/resources/in/complex_5.json")) {
+        if (args[0].equals("/home/sebastian/etapa2/checker/resources/in/complex_5.json")) {
             new Writer("cacas.out").closeJSON(consumers, distributors, producers);
         }
         writer.closeJSON(consumers, distributors, producers);
     }
-
-
-
-
 
 
 }

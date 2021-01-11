@@ -7,7 +7,6 @@ import entities.Producer;
 import contract.ContractConsumerDistributor;
 import contract.ContractDistributorProducer;
 import strategies.EnergyChoiceStrategyType;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -29,29 +28,37 @@ public final class Writer {
         this.file = new FileWriter(path);
     }
 
-    public void writeProducerHistory(Input input, List<List<Map<String, Object>>> list, long month) {
+
+    /**
+     *
+     * @param input instance to get the producers list
+     * @param list the list we use in the final file
+     * @param month current month
+     */
+    public void writeProducerHistory(Input input, List<List<Map<String,
+            Object>>> list, long month) {
         int i = 0;
-        for(Producer producer: input.getProducers()) {
+        for (Producer producer : input.getProducers()) {
             List<Long> ids = new LinkedList<>();
-            for(ContractDistributorProducer c: producer.getContractList()){
+            for (ContractDistributorProducer c : producer.getContractList()) {
                 ids.add(c.getReceiverId());
             }
             ids = ids.stream().distinct().collect(Collectors.toList());
             ids.sort(Comparator.comparingLong(o -> o));
-            list.get(i).add(this.writeFileProducerContract(month,ids));
+            list.get(i).add(this.writeFileProducerContract(month, ids));
             i++;
         }
     }
 
     /**
-     * @param id of consumer
+     * @param id         of consumer
      * @param isBankrupt true if consumer is not in game
-     * @param budget of consumer
+     * @param budget     of consumer
      * @return map with consumer's attributes
      */
     public Map<String, Object> writeFileConsumer(final long id,
-                                                  final boolean isBankrupt,
-                                                  final long budget) {
+                                                 final boolean isBankrupt,
+                                                 final long budget) {
         Map<String, Object> object = new LinkedHashMap<>();
         object.put(Constants.getString(Constants.ID), id);
         object.put(Constants.getString(Constants.IS_BANKRUPT), isBankrupt);
@@ -60,11 +67,10 @@ public final class Writer {
     }
 
     /**
-     *
-     * @param id id of the distributor
-     * @param budget budget of the distributor
+     * @param id         id of the distributor
+     * @param budget     budget of the distributor
      * @param isBankrupt true if the distributor is bankrupt an false otherwise
-     * @param contracts contract list of the distributor
+     * @param contracts  contract list of the distributor
      * @return distributor Map<field, value>
      */
     public Map<String, Object> writeFileDistributor(final long id,
@@ -85,19 +91,36 @@ public final class Writer {
         return object;
     }
 
-
+    /**
+     *
+     * @param id of the producer
+     * @param maxDistributors of the producer
+     * @param priceKW of the producer
+     * @param energyType of the producer
+     * @param energyPerDistributor of the producer
+     * @param months -> monthly stats of the producer
+     * @return producer in json format
+     */
     public Map<String, Object> writeFileProducer(long id, long maxDistributors,
-                                                         double priceKW, String energyType,
-                                                         long energyPerDistributor, List<Map<String, Object>> months){
+                                                 double priceKW, String energyType,
+                                                 long energyPerDistributor,
+                                                 List<Map<String, Object>> months) {
         Map<String, Object> object = new LinkedHashMap<>();
         object.put(Constants.getString(Constants.ID), id);
         object.put(Constants.getString(Constants.MAX_DISTRIBUTORS), maxDistributors);
         object.put(Constants.getString(Constants.PRICE_KW), priceKW);
         object.put(Constants.getString(Constants.ENERGY_TYPE), energyType);
-        object.put(Constants.getString(Constants.ENERGY_PER_DISTRIBUITOR), energyPerDistributor);
+        object.put(Constants.getString(Constants.ENERGY_PER_DISTRIBUTOR), energyPerDistributor);
         object.put(Constants.getString(Constants.MONTHLY_STATS), months);
         return object;
     }
+
+    /**
+     *
+     * @param month current month
+     * @param disIds distributor ids which the producer has contract with
+     * @return json format producer contract
+     */
 
     public Map<String, Object> writeFileProducerContract(long month, List<Long> disIds) {
         Map<String, Object> object = new LinkedHashMap<>();
@@ -105,36 +128,49 @@ public final class Writer {
         object.put(Constants.getString(Constants.DISTRIBUTORS_IDS), disIds);
         return object;
     }
+
     /**
-     * @param consumerId in contract
-     * @param price of contract
+     * @param consumerId             in contract
+     * @param price                  of contract
      * @param remainedContractMonths contracted
      * @return map with contract attributes
      */
     public Map<String, Object> writeFileConsumerContract(final long consumerId, final long price,
-                                         final long remainedContractMonths) {
+                                                         final long remainedContractMonths) {
         Map<String, Object> object = new LinkedHashMap<>();
         object.put(Constants.getString(Constants.CONSUMER_ID), consumerId);
         object.put(Constants.getString(Constants.PRICE), price);
-        object.put(Constants.getString(Constants.REMAINED_CONTRACT_MONTHS), remainedContractMonths);
+        object.put(Constants.getString(Constants.REMAINED_CONTRACT_MONTHS),
+                remainedContractMonths);
         return object;
     }
 
-    public void finalLists(Input input, List<List<Map<String, Object>>> producersHistory, List<Map<String, Object>> consumers, List<Map<String, Object>> distributors, List<Map<String, Object>> producers) {
-        for(Consumer consumer: input.getConsumers()){
+    /**
+     *
+     * @param input to get the entities lists
+     * @param producersHistory the monthly stats of the producers
+     * @param consumers list of consumers in json format
+     * @param distributors list of distributors in json format
+     * @param producers list of producers in json format
+     */
+    public void finalLists(Input input, List<List<Map<String,
+                           Object>>> producersHistory,
+                           List<Map<String, Object>> consumers,
+                           List<Map<String, Object>> distributors,
+                           List<Map<String, Object>> producers) {
+        for (Consumer consumer : input.getConsumers()) {
             consumers.add(this.writeFileConsumer(consumer.getId(),
                     !consumer.isInGame(),
                     consumer.getBudget()));
         }
 
-        for(Distributor distributor: input.getDistributors()) {
+        for (Distributor distributor : input.getDistributors()) {
 
             List<Map<String, Object>> contracts = new LinkedList<>();
-            for(ContractConsumerDistributor c: distributor.getActiveConsumerContracts()) {
-                contracts.add(this.writeFileConsumerContract
-                        (c.getConsumerId(),
-                                c.getPrice(),
-                                c.getMonthsRemained()));
+            for (ContractConsumerDistributor c : distributor.getActiveConsumerContracts()) {
+                contracts.add(this.writeFileConsumerContract(c.getConsumerId(),
+                                                            c.getPrice(),
+                                                            c.getMonthsRemained()));
             }
             distributors.add(this.writeFileDistributor(distributor.getId(),
                     distributor.getEnergyNeededKW(), distributor.getPriceOfContract(),
@@ -144,19 +180,19 @@ public final class Writer {
         }
         int i = 0;
 
-        for(Producer producer: input.getProducers()) {
+        for (Producer producer : input.getProducers()) {
             producers.add(this.writeFileProducer(producer.getId(), producer.getMaxDistributors(),
                     producer.getPriceKW(), Constants.getString(producer.getEnergyType()),
                     producer.getEnergyPerDistributor(), producersHistory.get(i)));
             ++i;
         }
-        producers.sort(Comparator.comparingLong(o -> (Long) o.get(Constants.getString(Constants.ID))));
+        producers.sort(Comparator.comparingLong(o -> (Long) o.get(Constants.
+                getString(Constants.ID))));
 
     }
 
     /**
-     *
-     * @param consumers list
+     * @param consumers    list
      * @param distributors list
      */
     public void closeJSON(final List<Map<String, Object>> consumers,

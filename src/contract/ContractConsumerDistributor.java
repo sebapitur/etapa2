@@ -48,8 +48,8 @@ public final class ContractConsumerDistributor extends Contract {
         this.monthsRemained = monthsRemained;
     }
 
-    public void setOldPrice(long price) {
-        oldprice = price;
+    public void setOldPrice(long p) {
+        oldprice = p;
     }
 
     public long getOldprice() {

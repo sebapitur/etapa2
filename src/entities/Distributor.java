@@ -16,17 +16,20 @@ public class Distributor implements Entity, Observer {
     private long budget;
     private long infrastructureCost;
     private long productionCost;
-    EnergyChoiceStrategyType strategyType;
-    Strategy strategy;
+    private final EnergyChoiceStrategyType strategyType;
+    private Strategy strategy;
     private long nrConsumers = 0;
     private long priceOfContract;
     private long monthlyExpense;
-    private final List<ContractConsumerDistributor> activeContractConsumerDistributors = new LinkedList<>();
-    private List<ContractDistributorProducer> activeContractDistributorProducers = new LinkedList<>();
+    private final List<ContractConsumerDistributor>
+            activeContractConsumerDistributors = new LinkedList<>();
+    private List<ContractDistributorProducer>
+            activeContractDistributorProducers = new LinkedList<>();
     private boolean inGame = true;
-    boolean searchProducer = true;
+    private boolean searchProducer = true;
 
-    public Distributor(long id, long contractLength, long initialBudget ,long initialInfrastructureCost,
+    public Distributor(long id, long contractLength, long initialBudget,
+                       long initialInfrastructureCost,
                        long energyNeededKW, EnergyChoiceStrategyType strategyType) {
         this.id = id;
         this.contractLength = contractLength;
@@ -38,48 +41,104 @@ public class Distributor implements Entity, Observer {
         this.strategy = StrategyFactory.getStrategy(strategyType);
     }
 
-    public EnergyChoiceStrategyType getStrategyType() {
-        return strategyType;
-    }
-
-    public long getEnergyNeededKW() {
-        return energyNeededKW;
-    }
-
-    public void setProductionCost(long productionCost) {
-        this.productionCost = productionCost;
-    }
-
-    public boolean isSaturated() {
-        return energyReceived >= energyNeededKW;
-    }
-
-    public boolean getSearchProducer() {
-        return searchProducer;
-    }
-
-    public void setSearchProducer(boolean searchProducer) {
-        if(searchProducer)
-            this.energyReceived = 0;
-        this.searchProducer = searchProducer;
-    }
-
-    public void updateEnergyReceived(long energyReceivedToBeAdded) {
-        this.energyReceived += energyReceivedToBeAdded;
-    }
-
-    public void setActiveContractDistributorProducers(List<ContractDistributorProducer> activeContractDistributorProducers) {
-        this.activeContractDistributorProducers = activeContractDistributorProducers;
+    /**
+     *
+     * @return distributor's strategy
+     */
+    public Strategy getStrategy() {
+        return strategy;
     }
 
     /**
      *
+     * @param strategy sets distributor's strategy
+     */
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    /**
+     *
+     * @return Strategy Instance
+     */
+    public EnergyChoiceStrategyType getStrategyType() {
+        return strategyType;
+    }
+
+    /**
+     *
+     * @return EnergyNeededKW
+     */
+    public long getEnergyNeededKW() {
+        return energyNeededKW;
+    }
+
+    /**
+     *
+     * @param productionCost Production Cost
+     */
+    public void setProductionCost(long productionCost) {
+        this.productionCost = productionCost;
+    }
+
+    /**
+     *
+     * @return true if distributor satisfied its energy needs
+     */
+    public boolean isSaturated() {
+        return energyReceived >= energyNeededKW;
+    }
+
+    /**
+     *
+     * @return true if distributor should reconsider its Producer options
+     */
+    public boolean getSearchProducer() {
+        return searchProducer;
+    }
+
+    /**
+     *
+     * @param searchProducer false if distributor should
+     *                       not reconsider its Producer options
+     */
+    public void setSearchProducer(boolean searchProducer) {
+        if (searchProducer) {
+            this.energyReceived = 0;
+        }
+        this.searchProducer = searchProducer;
+    }
+
+    /**
+     *
+     * @param energyReceivedToBeAdded the energy to be added
+     */
+    public void updateEnergyReceived(long energyReceivedToBeAdded) {
+        this.energyReceived += energyReceivedToBeAdded;
+    }
+
+    /**
+     *
+     * @param activeContractDistributorProducers list of
+     *       contracts between distributors and proucers
+     */
+    public void setActiveContractDistributorProducers(List<ContractDistributorProducer>
+                                                              activeContractDistributorProducers) {
+        this.activeContractDistributorProducers = activeContractDistributorProducers;
+    }
+
+    /**
      * @return distributor's budget
      */
     public long getBudget() {
         return budget;
     }
 
+    /**
+     *
+     * @param pricer instance with different pricing methods
+     * @param instancer used to instantiate entities
+     */
     @Override
     public void modify(Pricer pricer, Instancer instancer) {
 
@@ -95,7 +154,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @param budget sets distributor's budget
      */
     public void setBudget(long budget) {
@@ -103,7 +161,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @param inGame true if the distributor is not bankrupt
      */
     public void setInGame(boolean inGame) {
@@ -111,7 +168,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @return distributor's contract length in months
      */
     public long getContractLength() {
@@ -119,7 +175,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @return distributor's id
      */
     public long getId() {
@@ -127,7 +182,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @return distributor's monthly expense
      */
     public long getMonthlyExpense() {
@@ -135,7 +189,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @param monthlyExpense sets distributor's monthly expense
      */
     public void setMonthlyExpense(long monthlyExpense) {
@@ -143,7 +196,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @return distributor's infrastructure cost
      */
     public long getInfrastructureCost() {
@@ -151,7 +203,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @param infrastructureCost infrastructure cost
      */
     public void setInfrastructureCost(long infrastructureCost) {
@@ -159,31 +210,31 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @return production cost
      */
     public long getProductionCost() {
         return productionCost;
     }
 
-
-
-
+    /**
+     *
+     * @return pretty string format of a distributor
+     */
     @Override
     public String toString() {
-        return "Distributor{" +
-                "id=" + id +
-                ", contractLength=" + contractLength +
-                ", budget=" + budget +
-                ", infrastructureCost=" + infrastructureCost +
-                ", productionCost=" + productionCost +
-                ", strategy=" + strategyType +
-                ", nrConsumers=" + nrConsumers +
-                ", priceOfContract=" + priceOfContract +
-                ", monthlyExpense=" + monthlyExpense +
-                ", activeContracts=" + activeContractConsumerDistributors +
-                ", inGame=" + inGame +
-                '}';
+        return "Distributor{"
+                + "id=" + id
+                + ", contractLength=" + contractLength
+                + ", budget=" + budget
+                + ", infrastructureCost=" + infrastructureCost
+                + ", productionCost=" + productionCost
+                + ", strategy=" + strategyType
+                + ", nrConsumers=" + nrConsumers
+                + ", priceOfContract=" + priceOfContract
+                + ", monthlyExpense=" + monthlyExpense
+                + ", activeContracts=" + activeContractConsumerDistributors
+                + ", inGame=" + inGame
+                + '}';
     }
 
     /**
@@ -192,7 +243,6 @@ public class Distributor implements Entity, Observer {
      */
 
     /**
-     *
      * @param contractConsumerDistributor distributor's contract
      */
     public void addContract(ContractConsumerDistributor contractConsumerDistributor) {
@@ -200,7 +250,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @return distributor's price of contract
      */
     public long getPriceOfContract() {
@@ -208,7 +257,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @param priceOfContract distributor's price of contract
      */
     public void setPriceOfContract(long priceOfContract) {
@@ -216,7 +264,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @return distributor's nr of customers
      */
     public long getNrConsumers() {
@@ -224,7 +271,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
      * @param nrConsumers distributor's number of customers
      */
     public void setNrConsumers(long nrConsumers) {
@@ -232,17 +278,21 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
-     * @return distributor's list of active contracts
+     * @return the list with the consumer contracts
      */
     public List<ContractConsumerDistributor> getActiveConsumerContracts() {
         return activeContractConsumerDistributors;
     }
 
-    public List<ContractDistributorProducer> getActiveProducersContracts() {return activeContractDistributorProducers; }
-
     /**
      *
+     * @return the list with the producer contracts
+     */
+    public List<ContractDistributorProducer> getActiveProducersContracts() {
+        return activeContractDistributorProducers;
+    }
+
+    /**
      * @return true if distributor is not bankrupt
      */
     @Override
@@ -250,13 +300,23 @@ public class Distributor implements Entity, Observer {
         return this.inGame;
     }
 
+    /**
+     *
+     * @param o ignored
+     * @param arg ignored
+     */
     @Override
     public void update(Observable o, Object arg) {
         setSearchProducer(true);
     }
 
-    public List<Producer> sortedList(List<Producer> list){
-         return strategy.getSortedList(list);
+    /**
+     *
+     * @param list of producers
+     * @return sorted producers
+     */
+    public List<Producer> sortedList(List<Producer> list) {
+        return strategy.getSortedList(list);
     }
 
 }

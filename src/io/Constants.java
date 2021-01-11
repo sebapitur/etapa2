@@ -1,25 +1,24 @@
 package io;
 
-import com.sun.source.tree.BreakTree;
-import strategies.EnergyChoiceStrategyType;
-
 public enum Constants {
 
     NUMBER_OF_TURNS, INITIAL_DATA, CONSUMERS, CONSUMER, DISTRIBUTORS,
-    DISTRIBUTOR, MONTHLY_UPDATES, NEW_CONSUMERS, INITIAL_BUDGET,
-    COSTS_CHANGES, ID, INITIAL_INFRASTRUCTURE_COST, PRODUCTION_COST, MONTHLY_INCOME,
-    CONTRACT_LENGTH, ENERGY_NEEDED_KW, PRODUCER_STRATEGY, PRODUCERS,
-    PRODUCER, ENERGY_TYPE, MAX_DISTRIBUTORS, ENERGY_PER_DISTRIBUITOR, PRICE_KW,
-    IS_BANKRUPT, BUDGET, CONTRACT_COST, CONTRACTS, CONSUMER_ID, PRICE,
-    REMAINED_CONTRACT_MONTHS, MONTHLY_STATS, MONTH, DISTRIBUTORS_IDS,
-    ENERGY_PRODUCERS,
-    SOLAR, HYDRO, COAL, WIND, NUCLEAR
+    DISTRIBUTOR, MONTHLY_UPDATES, NEW_CONSUMERS, INITIAL_BUDGET, ID,
+    INITIAL_INFRASTRUCTURE_COST, MONTHLY_INCOME, CONTRACT_LENGTH,
+    ENERGY_NEEDED_KW, PRODUCER_STRATEGY, PRODUCERS, PRODUCER, ENERGY_TYPE,
+    MAX_DISTRIBUTORS, ENERGY_PER_DISTRIBUTOR, PRICE_KW, IS_BANKRUPT,
+    BUDGET, CONTRACT_COST, CONTRACTS, CONSUMER_ID, PRICE, REMAINED_CONTRACT_MONTHS,
+    MONTHLY_STATS, MONTH, DISTRIBUTORS_IDS, ENERGY_PRODUCERS, SOLAR, HYDRO, COAL,
+    WIND, NUCLEAR, DISTRIBUTORS_CHANGES, PRODUCER_CHANGES, INFRASTRUCTURE_COST;
 
 
+    /**
+     * returns the string equivalent to the constant
+     * @param constant to be transformed
+     * @return string equivalent
+     */
 
-    , DISTRIBUTORS_CHANGES, PRODUCER_CHANGES, INFRASTRUCTURE_COST;
-
-    public static String getString(Constants constant){
+    public static String getString(Constants constant) {
         return switch (constant) {
             case ID -> "id";
             case NUMBER_OF_TURNS -> "numberOfTurns";
@@ -38,11 +37,11 @@ public enum Constants {
             case PRODUCER -> "producer";
             case ENERGY_TYPE -> "energyType";
             case MAX_DISTRIBUTORS -> "maxDistributors";
-            case ENERGY_PER_DISTRIBUITOR ->"energyPerDistributor";
+            case ENERGY_PER_DISTRIBUTOR -> "energyPerDistributor";
             case PRICE_KW -> "priceKW";
             case MONTHLY_UPDATES -> "monthlyUpdates";
             case NEW_CONSUMERS -> "newConsumers";
-            case DISTRIBUTORS_CHANGES ->  "distributorChanges";
+            case DISTRIBUTORS_CHANGES -> "distributorChanges";
             case PRODUCER_CHANGES -> "producerChanges";
             case INFRASTRUCTURE_COST -> "infrastructureCost";
             case IS_BANKRUPT -> "isBankrupt";
@@ -61,9 +60,9 @@ public enum Constants {
             case WIND -> "WIND";
             case NUCLEAR -> "NUCLEAR";
             case ENERGY_PRODUCERS -> "energyProducers";
-            default -> null;
         };
     }
+
     static Constants getEnergyType(String str) {
         return switch (str) {
             case "SOLAR" -> Constants.SOLAR;

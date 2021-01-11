@@ -8,17 +8,39 @@ public enum EnergyChoiceStrategyType {
     GREEN("GREEN"),
     PRICE("PRICE"),
     QUANTITY("QUANTITY");
-    public final String label;
+    private final String label;
 
+    public String getLabel() {
+        return label;
+    }
+
+    /**
+     *
+     * @param str to be transformed
+     * @return the constant coresponding tot the string
+     */
     public static EnergyChoiceStrategyType getConstant(String str) {
         switch (str) {
-            case "GREEN" -> {return EnergyChoiceStrategyType.GREEN;}
-            case "PRICE" -> {return EnergyChoiceStrategyType.PRICE;}
-            case "QUANTITY" -> {return EnergyChoiceStrategyType.QUANTITY;}
-            default -> {return null;}
+            case "GREEN" -> {
+                return EnergyChoiceStrategyType.GREEN;
+            }
+            case "PRICE" -> {
+                return EnergyChoiceStrategyType.PRICE;
+            }
+            case "QUANTITY" -> {
+                return EnergyChoiceStrategyType.QUANTITY;
+            }
+            default -> {
+                return null;
+            }
         }
     }
 
+    /**
+     *
+     * @param t constant to be transformed
+     * @return String coresponding to the constant
+     */
     public static String getString(EnergyChoiceStrategyType t) {
         switch (t) {
             case GREEN -> {

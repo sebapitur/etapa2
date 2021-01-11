@@ -1,28 +1,36 @@
 package contract;
+
 import entities.Distributor;
 import entities.Producer;
 import entityatt.Instancer;
 import io.Input;
+
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ContractorProducer extends Contractor {
 
-   Input input;
+    private final Input input;
+
     public ContractorProducer(Instancer instancer) {
         super(instancer);
         this.input = instancer.getInput();
     }
+
+
+    /**
+     * sets the contracts between distributors and producers
+     */
     @Override
     public void setContracts() {
 
         List<Producer> producers = input.getProducers();
         List<Distributor> distributors = new LinkedList<>(input.getDistributors());
-        while(!distributors.isEmpty()) {
+        while (!distributors.isEmpty()) {
             distributors.sort(Comparator.comparingLong(Distributor::getId));
             Distributor distributor = distributors.get(0);
-            if(distributor.getSearchProducer()) {
+            if (distributor.getSearchProducer()) {
                 removeContracts(producers, distributor);
                 signContracts(producers, distributor);
                 distributor.setSearchProducer(false);
@@ -32,13 +40,14 @@ public class ContractorProducer extends Contractor {
     }
 
     private void signContracts(List<Producer> producers, Distributor distributor) {
+        Instancer instancer = getInstancer();
         List<Producer> sortedProducers = distributor.sortedList(producers);
         int i = 0;
         while (!distributor.isSaturated() && i < sortedProducers.size()) {
             Producer producer = null;
             while (i < sortedProducers.size()) {
                 producer = sortedProducers.get(i);
-                if(producer.acceptsClients()) {
+                if (producer.acceptsClients()) {
                     break;
                 }
                 i++;
@@ -54,7 +63,7 @@ public class ContractorProducer extends Contractor {
     }
 
     private void removeContracts(List<Producer> producers, Distributor distributor) {
-        for(Producer producer: producers) {
+        for (Producer producer : producers) {
             List<ContractDistributorProducer> contracts = producer.getContractList();
             contracts.removeIf(o -> o.getDistributorId() == distributor.getId());
             producer.getObservers().removeIf(observer -> {

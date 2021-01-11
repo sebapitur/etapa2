@@ -12,7 +12,6 @@ public class Consumer implements Entity {
     private boolean inGame = true;
 
     /**
-     *
      * @return consumer's monthly income
      */
     public long getMonthlyIncome() {
@@ -20,7 +19,6 @@ public class Consumer implements Entity {
     }
 
     /**
-     *
      * @param inGame true if consumer is in game, false otherwise
      */
     public void setInGame(final boolean inGame) {
@@ -28,7 +26,6 @@ public class Consumer implements Entity {
     }
 
     /**
-     *
      * @return consumer's budget
      */
     public long getBudget() {
@@ -36,7 +33,6 @@ public class Consumer implements Entity {
     }
 
     /**
-     *
      * @param budget sets consumer's budget
      */
     public void setBudget(final long budget) {
@@ -50,7 +46,6 @@ public class Consumer implements Entity {
     }
 
     /**
-     *
      * @return consumer's id
      */
     public long getId() {
@@ -58,7 +53,6 @@ public class Consumer implements Entity {
     }
 
     /**
-     *
      * @return consumer's active contract
      */
     public ContractConsumerDistributor getActiveContract() {
@@ -66,15 +60,13 @@ public class Consumer implements Entity {
     }
 
     /**
-     *
-     * @param activeContractConsumerDistributor set consumer's active contract
+     * @param contract consumer's active contract
      */
-    public void setActiveContract(final ContractConsumerDistributor activeContractConsumerDistributor) {
-        this.activeContractConsumerDistributor = activeContractConsumerDistributor;
+    public void setActiveContract(final ContractConsumerDistributor contract) {
+        this.activeContractConsumerDistributor = contract;
     }
 
     /**
-     *
      * @return prints consumer in a more readable way
      */
     @Override
@@ -90,15 +82,19 @@ public class Consumer implements Entity {
 
 
     /**
-     *
      * @return false if the consumer is bankrupt, true otherwise
      */
     @Override
     public boolean isInGame() {
         return this.inGame;
     }
-    
-    public void modify(Pricer pricer, Instancer instancer){
+
+    /**
+     *
+     * @param pricer instance with various pricing methods
+     * @param instancer instantiates entities
+     */
+    public void modify(Pricer pricer, Instancer instancer) {
         Consumer consumer = this;
         if (consumer.isInGame()) {
             consumer.setBudget(consumer.getBudget() + consumer.getMonthlyIncome());

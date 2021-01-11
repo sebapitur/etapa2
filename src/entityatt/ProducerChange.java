@@ -1,6 +1,6 @@
 package entityatt;
 
-public class ProducerChange extends Change{
+public final class ProducerChange extends Change {
     public ProducerChange(long id, long dimension) {
         super(id, dimension);
     }

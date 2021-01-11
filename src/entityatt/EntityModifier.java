@@ -11,19 +11,68 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EntityModifier {
-    Pricer pricer;
-    Instancer instancer;
-    long monthIndex = 0;
+    private Pricer pricer;
+    private Instancer instancer;
+    private long monthIndex = 0;
 
     public EntityModifier(Pricer pricer, Instancer instancer) {
         this.pricer = pricer;
         this.instancer = instancer;
     }
 
+    /**
+     *
+     * @return the pricer instance
+     */
+    public Pricer getPricer() {
+        return pricer;
+    }
+
+    /**
+     *
+     * @param pricer instance
+     */
+    public void setPricer(Pricer pricer) {
+        this.pricer = pricer;
+    }
+
+    /**
+     *
+     * @return the instancer
+     */
+    public Instancer getInstancer() {
+        return instancer;
+    }
+
+    /**
+     *
+     * @param instancer entity
+     */
+    public void setInstancer(Instancer instancer) {
+        this.instancer = instancer;
+    }
+
+    /**
+     *
+     * @return round current month
+     */
+    public long getMonthIndex() {
+        return monthIndex;
+    }
+
+    /**
+     *
+     * @param monthIndex of the current round
+     */
     public void setMonthIndex(long monthIndex) {
         this.monthIndex = monthIndex;
     }
 
+    /**
+     *
+     * @param distributors list
+     * @param consumers list
+     */
     public void modifyEntities(List<Distributor> distributors, List<Consumer> consumers) {
         distributors = distributors.stream().filter(Entity::isInGame).
                 collect(Collectors.toCollection(LinkedList::new));
@@ -39,10 +88,10 @@ public class EntityModifier {
         }
     }
 
-    public void modifyProducers() {
+    private void modifyProducers() {
         Input input = instancer.getInput();
         List<ProducerChange> producerChanges = input.getProducerChanges().get((int) monthIndex);
-        for (ProducerChange producerChange: producerChanges) {
+        for (ProducerChange producerChange : producerChanges) {
             long id = producerChange.getId();
             long newEnergyPerDistributor = producerChange.getEnergyPerDistributor();
             Producer p = instancer.getProducer(id);
@@ -51,7 +100,6 @@ public class EntityModifier {
     }
 
     /**
-     *
      * @param consumers list
      */
     private void modifyConsumers(List<Consumer> consumers) {

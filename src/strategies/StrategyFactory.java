@@ -1,7 +1,17 @@
 package strategies;
 
-public class StrategyFactory {
-    static public Strategy getStrategy(EnergyChoiceStrategyType strategyType) {
+public final class StrategyFactory {
+
+
+    private StrategyFactory() {
+    }
+
+    /**
+     *
+     * @param strategyType constant
+     * @return the instance of strategy needed
+     */
+    public static Strategy getStrategy(EnergyChoiceStrategyType strategyType) {
         Strategy strategy;
         switch (strategyType) {
             case GREEN -> {

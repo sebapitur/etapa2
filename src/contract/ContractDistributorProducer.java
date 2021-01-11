@@ -1,10 +1,11 @@
 package contract;
 
-public class ContractDistributorProducer extends Contract{
+public final class ContractDistributorProducer extends Contract {
 
     public long getDistributorId() {
         return getReceiverId();
     }
+
     public long getProducerId() {
         return getProviderId();
     }
@@ -16,9 +17,9 @@ public class ContractDistributorProducer extends Contract{
 
     @Override
     public String toString() {
-        return "ContractDistributorProducer{" +
-                "receiverId=" + receiverId +
-                ", providerId=" + providerId +
-                '}';
+        return "ContractDistributorProducer{"
+                + "receiverId=" + receiverId
+                + ", providerId=" + providerId
+                + '}';
     }
 }
