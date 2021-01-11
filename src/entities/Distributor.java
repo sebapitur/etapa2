@@ -238,11 +238,6 @@ public class Distributor implements Entity, Observer {
     }
 
     /**
-     *
-     * @return string with distributor's fields
-     */
-
-    /**
      * @param contractConsumerDistributor distributor's contract
      */
     public void addContract(ContractConsumerDistributor contractConsumerDistributor) {

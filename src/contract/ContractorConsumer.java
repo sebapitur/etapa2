@@ -42,7 +42,6 @@ public final class ContractorConsumer extends Contractor {
                                List<Map.Entry<Distributor,
                                        Long>> sortedDistributors) {
         Instancer instancer = getInstancer();
-        Mapper mapper = getMapper();
         for (Consumer consumer : consumers) {
             ContractConsumerDistributor contractConsumerDistributor
                     = new ContractConsumerDistributor(consumer.getId(),
